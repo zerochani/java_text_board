@@ -14,9 +14,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         List<Article> articles = new ArrayList<>();
         makeArticleTestData(articles);
-        int lastId = articles.get(articles.size()-1).id; //게시물 번호
-        Article lastArticle = null;
-
+        int lastId = articles.get(articles.size()-1).id;
 
 
         while(true){
@@ -35,7 +33,6 @@ public class Main {
                 int id = ++lastId;
 
                 Article article = new Article(id,subject,content);
-                lastArticle = article;
                 //리스트에 담기
                 articles.add(article);
 
@@ -69,10 +66,14 @@ public class Main {
                 }
             }
             else if(cmd.equals("/user/article/detail")){
-                Article article = lastArticle;
+                if(articles.isEmpty()){
+                    System.out.println("현재 게시물이 존재하지 않습니다.");
+                    continue;
+                }
+                Article article = articles.get(articles.size()-1);
 
                 if(article == null){
-                    System.out.println("게시물이 존재하지 않습니다.");
+                    System.out.println("해당 게시물이 존재하지 않습니다.");
                     continue;
                 }
 
