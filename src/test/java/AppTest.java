@@ -9,8 +9,14 @@ public class AppTest {
         System.out.println(Arrays.toString(queryStringBits));
 
         for(String bit : queryStringBits){
-            System.out.println(bit);
+            String[] bits = bit.split("=");
+            //System.out.println(Arrays.toString(bits));
+
+            String paramKey = bits[0];
+            String paramValue = bits[1];
+
+            System.out.printf("%s: %s\n", paramKey, paramValue);
         }
-        Arrays.stream(queryStringBits).forEach(System.out::println);
+
     }
 }
