@@ -7,7 +7,9 @@ public class AppTest {
         String[] queryStringBits = queryString.split("&");
 
         System.out.println(Arrays.toString(queryStringBits));
-
+        int a=0;
+        int b=0;
+        int c=0;
         for(String bit : queryStringBits){
             String[] bits = bit.split("=");
             //System.out.println(Arrays.toString(bits));
@@ -15,8 +17,17 @@ public class AppTest {
             String paramKey = bits[0];
             String paramValue = bits[1];
 
-            System.out.printf("%s: %s\n", paramKey, paramValue);
+            if(paramKey.equals("a")){
+                a = Integer.parseInt(paramValue);
+            }else if(paramKey.equals("b")){
+                b = Integer.parseInt(paramValue);
+            }else if(paramKey.equals("c")){
+                c = Integer.parseInt(paramValue);
+            }
         }
+        System.out.printf("a: %d\n",a);
+        System.out.printf("b: %d\n",b);
+        System.out.printf("c: %d\n",c);
 
     }
 }
