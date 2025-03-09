@@ -7,6 +7,12 @@ public class AppTest {
         Map<String,String> params = Util.getParamsFromUrl(queryString);
         System.out.println(params);
 
+        System.out.println(params.get("id"));
+        System.out.println(params.get("subject"));
+        System.out.println(params.get("content"));
+        System.out.println(params.get("writerName"));
+
+
     }
 }
 
