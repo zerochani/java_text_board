@@ -1,10 +1,13 @@
 package com.pyc.java.board;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         System.out.println("== 자바 텍스트 게시판 시작 ==");
         Scanner sc = new Scanner(System.in);
+        List<Article> articles = new ArrayList<>();
         int lastId = 0; //게시물 번호
         Article lastArticle = null;
 
@@ -25,11 +28,39 @@ public class Main {
 
                 Article article = new Article(id,subject,content);
                 lastArticle = article;
+                //리스트에 담기
+                articles.add(article);
 
                 System.out.println("생성된 게시물 객체 : " + article);
 
                 System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
-            }else if(cmd.equals("/user/article/detail")){
+            }else if(cmd.equals("/user/article/list")){
+                if(articles.isEmpty()){
+                    System.out.println("현재 게시물이 존재하지 않습니다.");
+                    continue;
+                }
+
+                System.out.println("번호 | 제목");
+                //첫번째 방법
+//                for(int i=0; i<articles.size(); i++){
+//                    Article article = articles.get(i);
+//                    System.out.printf("%d | %s\n", article.id, article.subject);
+//                }
+                //향상된 for문
+//                for(Article article : articles){
+//                    System.out.printf("%d | %s\n", article.id, article.subject);
+//                }
+
+                //람다함수
+//                articles.forEach(article -> System.out.printf("%d | %s\n", article.id, article.subject));
+
+                //역순 출력
+                for(int i = articles.size()-1; i>=0; i--){
+                    Article article = articles.get(i);
+                    System.out.printf("%d | %s\n", article.id, article.subject);
+                }
+            }
+            else if(cmd.equals("/user/article/detail")){
                 Article article = lastArticle;
 
                 if(article == null){
