@@ -2,27 +2,32 @@ import java.util.*;
 
 public class AppTest {
     public static void main(String[] args) {
-        String queryString1 = "id=1&subject=제목1&content=내용1&writerName=김철수&boardId=1";
-        String queryString2 = "id=2&subject=제목2&content=내용2&writerName=신유리&boardId=2";
+        String queryString = "/usr/article/write?id=1&subject=제목1&content=10+5=13&writerName=김철수&boardId=1";
 
+        Map<String,String> params = Util.getParamsFromUrl(queryString);
+        System.out.println(params);
 
-        Map<String,String> params1 = Util.getParams(queryString1);
-        Map<String,String> params2 = Util.getParams(queryString2);
-        System.out.println(params1);
-        System.out.println(params2);
     }
 }
 
 class Util{
-    static Map<String, String> getParams(String queryStr){
+    static Map<String, String> getParamsFromUrl(String url){
         Map<String,String> params = new LinkedHashMap<>();
-        String[] queryStrBits = queryStr.split("&");
+        String[] urlBits = url.split("\\?",2);
 
-        for(String Bit : queryStrBits){
-            String[] bit = Bit.split("=");
+        if(urlBits.length==1) return params;
 
-            params.put(bit[0],bit[1]);
+        String queryStr = urlBits[1];
+
+        for(String bit : queryStr.split("&")){
+            String[] bitBits = bit.split("=",2);
+
+            if(bitBits.length==1){
+                continue;
+            }
+            params.put(bitBits[0],bitBits[1]);
         }
+
         return params;
     }
 }
