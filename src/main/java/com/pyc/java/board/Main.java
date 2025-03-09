@@ -13,10 +13,11 @@ public class Main {
         System.out.println("== 자바 텍스트 게시판 시작 ==");
         Scanner sc = new Scanner(System.in);
         List<Article> articles = new ArrayList<>();
-        int lastId = 0; //게시물 번호
+        makeArticleTestData(articles);
+        int lastId = articles.get(articles.size()-1).id; //게시물 번호
         Article lastArticle = null;
 
-        makeArticleTestData(articles);
+
 
         while(true){
             System.out.print("명령) ");
