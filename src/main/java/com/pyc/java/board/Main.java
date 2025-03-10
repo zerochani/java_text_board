@@ -41,17 +41,28 @@ public class Main {
 
                 System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
             }else if(rq.getUrlPath().equals("/user/article/list")){
+
+                Map<String,String> params = rq.getParams();
                 if(articles.isEmpty()){
                     System.out.println("현재 게시물이 존재하지 않습니다.");
                     continue;
                 }
-
+                boolean orderByIdDesc = true;
+                if(params.containsKey("orderBy") && params.get("orderBy").equals("IdAsc")){
+                    orderByIdDesc = false;
+                }
+                System.out.println("== 게시물 리스트 ==");
                 System.out.println("번호 | 제목");
-
-                //역순 출력
-                for(int i = articles.size()-1; i>=0; i--){
-                    Article article = articles.get(i);
-                    System.out.printf("%d | %s\n", article.id, article.subject);
+                if(orderByIdDesc){
+                    //역순 출력
+                    for(int i = articles.size()-1; i>=0; i--){
+                        Article article = articles.get(i);
+                        System.out.printf("%d | %s\n", article.id, article.subject);
+                    }
+                }else{
+                    articles.forEach(
+                            article->System.out.printf("%d | %s\n", article.id, article.subject)
+                    );
                 }
             }
             else if(rq.getUrlPath().equals("/user/article/detail")){
