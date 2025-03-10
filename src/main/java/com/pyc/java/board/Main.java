@@ -1,8 +1,7 @@
 package com.pyc.java.board;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 public class Main {
     static void makeArticleTestData(List<Article> articles){
         articles.add(new Article(1,"제목1","내용1"));
@@ -21,7 +20,9 @@ public class Main {
             System.out.print("명령) ");
             String cmd = sc.nextLine();
 
-            if(cmd.equals("/user/article/write")){
+            Rq rq = new Rq(cmd);
+
+            if(rq.getUrlPath().equals("/user/article/write")){
                 System.out.println("== 게시물 작성 ==");
 
                 System.out.print("제목 : ");
@@ -39,25 +40,13 @@ public class Main {
                 System.out.println("생성된 게시물 객체 : " + article);
 
                 System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
-            }else if(cmd.equals("/user/article/list")){
+            }else if(rq.getUrlPath().equals("/user/article/list")){
                 if(articles.isEmpty()){
                     System.out.println("현재 게시물이 존재하지 않습니다.");
                     continue;
                 }
 
                 System.out.println("번호 | 제목");
-                //첫번째 방법
-//                for(int i=0; i<articles.size(); i++){
-//                    Article article = articles.get(i);
-//                    System.out.printf("%d | %s\n", article.id, article.subject);
-//                }
-                //향상된 for문
-//                for(Article article : articles){
-//                    System.out.printf("%d | %s\n", article.id, article.subject);
-//                }
-
-                //람다함수
-//                articles.forEach(article -> System.out.printf("%d | %s\n", article.id, article.subject));
 
                 //역순 출력
                 for(int i = articles.size()-1; i>=0; i--){
@@ -65,7 +54,7 @@ public class Main {
                     System.out.printf("%d | %s\n", article.id, article.subject);
                 }
             }
-            else if(cmd.equals("/user/article/detail")){
+            else if(rq.getUrlPath().equals("/user/article/detail")){
                 if(articles.isEmpty()){
                     System.out.println("현재 게시물이 존재하지 않습니다.");
                     continue;
@@ -81,7 +70,7 @@ public class Main {
                 System.out.printf("번호: %d\n", article.id);
                 System.out.printf("제목: %s\n", article.subject);
                 System.out.printf("내용: %s\n", article.content);
-            }else if(cmd.equals("exit")){
+            }else if(rq.getUrlPath().equals("exit")){
                 System.out.println("프로그램을 종료합니다.");
                 break;
             }else{
@@ -112,3 +101,51 @@ class Article{
         return "{id: %d, subject: \"%s\", content: \"%s\"}".formatted(id,subject,content);
     }
 }
+
+class Rq{
+    String url;
+
+    Map<String, String> params;
+    String urlPath;
+
+    Rq(String url){
+        this.url = url;
+        params = Util.getParamsFromUrl(this.url);
+        urlPath = Util.getPathFromUrl(this.url);
+    }
+
+    Map<String,String> getParams(){
+        return params;
+    }
+
+    String getUrlPath(){
+        return urlPath;
+    }
+}
+
+class Util{
+    static Map<String, String> getParamsFromUrl(String url){
+        Map<String,String> params = new LinkedHashMap<>();
+        String[] urlBits = url.split("\\?",2);
+
+        if(urlBits.length==1) return params;
+
+        String queryStr = urlBits[1];
+
+        for(String bit : queryStr.split("&")){
+            String[] bitBits = bit.split("=",2);
+
+            if(bitBits.length==1){
+                continue;
+            }
+            params.put(bitBits[0],bitBits[1]);
+        }
+
+        return params;
+    }
+
+    static String getPathFromUrl(String url){
+        return url.split("\\?",2)[0];
+    }
+}
+
