@@ -71,7 +71,7 @@ public class Main {
                     id = Integer.parseInt(params.get("id"));
                 }catch(NumberFormatException e){
                     System.out.println("id를 정수형태로 입력해주세요.");
-
+                    continue;
                 }
 
                 if(id>articles.size()){
