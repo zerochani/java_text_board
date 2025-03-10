@@ -9,10 +9,10 @@ public class AppTest {
         System.out.println(rq.getParams());
         System.out.println(rq.getParams());
 
-        String urlPath = rq.urlPath();
+        String urlPath = rq.getUrlPath();
         System.out.println(urlPath);
-        System.out.println(rq.urlPath());
-        System.out.println(rq.urlPath());
+        System.out.println(rq.getUrlPath());
+        System.out.println(rq.getUrlPath());
 
     }
 }
@@ -20,16 +20,25 @@ public class AppTest {
 class Rq{
     String url;
 
+    Map<String, String> params;
+    String urlPath;
+
     Rq(String url){
         this.url = url;
     }
 
     Map<String,String> getParams(){
-        return Util.getParamsFromUrl(url);
+        if(params == null){
+            params = Util.getParamsFromUrl(url);
+        }
+        return params;
     }
 
-    String urlPath(){
-        return Util.getPathFromUrl(url);
+    String getUrlPath(){
+        if(urlPath == null){
+            urlPath = Util.getPathFromUrl(url);
+        }
+        return urlPath;
     }
 }
 
