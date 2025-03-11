@@ -53,17 +53,11 @@ public class Main {
                 }
                 System.out.println("== 게시물 리스트 ==");
                 System.out.println("번호 | 제목");
+                List<Article> sortedArticles = articles;
                 if(orderByIdDesc){
-                    //역순 출력
-                    for(int i = articles.size()-1; i>=0; i--){
-                        Article article = articles.get(i);
-                        System.out.printf("%d | %s\n", article.id, article.subject);
-                    }
-                }else{
-                    articles.forEach(
-                            article->System.out.printf("%d | %s\n", article.id, article.subject)
-                    );
+                    sortedArticles = Util.reverseList(sortedArticles);
                 }
+                sortedArticles.forEach(article-> System.out.printf("%d | %s\n", article.id, article.subject));
             }
             else if(rq.getUrlPath().equals("/user/article/detail")){
                 if(articles.isEmpty()){
@@ -171,6 +165,17 @@ class Util{
 
     static String getPathFromUrl(String url){
         return url.split("\\?",2)[0];
+    }
+
+    //이 함수는 원본리스트를 훼손하지 않고, 복사본을 만든다.
+    //즉 정렬이 반대인 복사본 리스트를 만들어서 반환.
+    static <T> List<T> reverseList(List<T> list){
+        List<T> reverse = new ArrayList<>(list.size());
+        //역순 출력
+        for(int i = list.size()-1; i>=0; i--){
+            reverse.add(list.get(i));
+        }
+        return reverse;
     }
 }
 
