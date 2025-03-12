@@ -30,7 +30,10 @@ public class Main {
             }
             else if(rq.getUrlPath().equals("/user/article/detail")){
                 actionUserArticleDetail(rq,articles);
-            }else if(rq.getUrlPath().equals("exit")){
+            }else if(rq.getUrlPath().equals("/user/article/modify")){
+                actionUserArticleModify(sc,rq,articles);
+            }
+            else if(rq.getUrlPath().equals("exit")){
                 System.out.println("프로그램을 종료합니다.");
                 break;
             }else{
@@ -42,6 +45,45 @@ public class Main {
         System.out.println("== 자바 텍스트 게시판 끝 ==");
         sc.close();
 
+    }
+
+    static void actionUserArticleModify(Scanner sc, Rq rq, List<Article> articles){
+        if (articles.isEmpty()) {
+            System.out.println("현재 게시물이 존재하지 않습니다.");
+            return;
+        }
+
+        Map<String, String> params = rq.getParams();
+
+        if (!params.containsKey("id")) {
+            System.out.println("id 값을 입력해주세요.");
+            return;
+        }
+
+        int id = 0;
+
+        try {
+            id = Integer.parseInt(params.get("id"));
+        } catch (NumberFormatException e) {
+            System.out.println("id를 정수형태로 입력해주세요.");
+            return;
+        }
+
+        if (id > articles.size()) {
+            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        Article article = articles.get(id - 1);
+
+        System.out.printf("== %d번 게시물 수정 ==\n", article.id);
+        System.out.print("제목 : ");
+        article.subject = sc.nextLine();
+
+        System.out.print("내용 : ");
+        article.content = sc.nextLine();
+
+        System.out.printf("%d번 게시물이 수정되었습니다.\n", article.id);
     }
 
     static void actionUserArticleWrite(Scanner sc, List<Article> articles, int lastId){
