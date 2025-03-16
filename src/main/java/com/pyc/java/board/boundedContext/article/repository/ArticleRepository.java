@@ -42,8 +42,8 @@ public class ArticleRepository {
             filteredArticles = new ArrayList<>();
 
             articles.stream()
-                    .filter(article-> article.subject.contains(searchKeyWord) ||
-                            article.content.contains(searchKeyWord))
+                    .filter(article-> article.getSubject().contains(searchKeyWord) ||
+                            article.getContent().contains(searchKeyWord))
                     .forEach(filteredArticles::add);
         }
         return filteredArticles;
@@ -51,7 +51,7 @@ public class ArticleRepository {
 
     public Article findById(int id){
         return articles.stream()
-                .filter(article-> article.id==id)
+                .filter(article-> article.getId()==id)
                 .findFirst()
                 .orElse(null);
     }
@@ -64,8 +64,8 @@ public class ArticleRepository {
             return;
         }
 
-        article.subject = subject;
-        article.content = content;
+        article.setSubject(subject);
+        article.setContent(content);
     }
 
     public void delete(int id) {
