@@ -3,28 +3,32 @@ package com.pyc.java.board.base;
 
 
 import com.pyc.java.board.util.Util;
+import lombok.Getter;
 
 import java.util.Map;
 
 public class Rq {
-    public String url;
+    private String url;
 
-    public Map<String, String> params;
-    public String urlPath;
+    @Getter
+    private Map<String, String> params;
+
+    @Getter
+    private String urlPath;
 
     public Rq(String url){
         this.url = url;
         params = Util.getParamsFromUrl(this.url);
         urlPath = Util.getPathFromUrl(this.url);
     }
-
-    public Map<String,String> getParams(){
-        return params;
-    }
-
-    public String getUrlPath(){
-        return urlPath;
-    }
+//lombok 사용해서 안써도됨.
+//    public Map<String,String> getParams(){
+//        return params;
+//    }
+//
+//    public String getUrlPath(){
+//        return urlPath;
+//    }
 
     public String getParam(String paramName, String defaultValue) {
         if(!params.containsKey(paramName)){
