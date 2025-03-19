@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import static com.pyc.java.board.container.Container.memberController;
+
 public class App {
     public ArticleController articleController;
 
@@ -40,6 +42,8 @@ public class App {
                 articleController.doModify(rq);
             }else if(rq.getUrlPath().equals("/user/article/delete")){
                 articleController.doDelete(rq);
+            }else if(rq.getUrlPath().equals("/user/member/join")){
+                memberController.doJoin(rq);
             }
             else if(rq.getUrlPath().equals("exit")){
                 System.out.println("프로그램을 종료합니다.");

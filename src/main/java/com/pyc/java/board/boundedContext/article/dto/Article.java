@@ -12,5 +12,5 @@ public class Article {
     private String subject;
     private String content;
 
-    
+
 }
