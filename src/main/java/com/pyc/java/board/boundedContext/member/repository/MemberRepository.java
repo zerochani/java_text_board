@@ -21,4 +21,11 @@ public class MemberRepository {
 
         members.add(member);
     }
+
+    public Member findByUsername(String username) {
+        return members.stream()
+                .filter(member-> member.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+    }
 }
