@@ -4,12 +4,16 @@ import com.pyc.java.board.base.Rq;
 import com.pyc.java.board.boundedContext.member.dto.Member;
 import com.pyc.java.board.boundedContext.member.service.MemberService;
 import com.pyc.java.board.container.Container;
+import com.pyc.java.board.session.Session;
 
 public class MemberController {
     private MemberService memberService;
+    private Session session;
 
     public MemberController(){
         memberService = Container.memberService;
+        session = Container.session;
+
     }
 
     public void doJoin(Rq rq){
@@ -94,6 +98,11 @@ public class MemberController {
         String password;
         Member member;
 
+        if(session.hasAttribute("loginedMember")){
+            System.out.println("로그아웃 후 이용해주세요.");
+            return;
+        }
+
         System.out.println("== 로그인 ==");
 
         //로그인 아이디 입력
@@ -142,6 +151,10 @@ public class MemberController {
             }
             break;
         }
+
+        //로그인 정보를 세션에 저장
+        session.setAttribute("loginedMember", member);
+        
         System.out.printf("\"%s\"님 환영합니다.\n", username);
     }
 }
