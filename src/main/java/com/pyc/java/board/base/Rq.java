@@ -2,6 +2,8 @@ package com.pyc.java.board.base;
 
 
 
+import com.pyc.java.board.container.Container;
+import com.pyc.java.board.session.Session;
 import com.pyc.java.board.util.Util;
 import lombok.Getter;
 
@@ -16,19 +18,17 @@ public class Rq {
     @Getter
     private String urlPath;
 
+    private Session session;
+    private final String loginedMember = "loginedMember";
+
     public Rq(String url){
         this.url = url;
         params = Util.getParamsFromUrl(this.url);
         urlPath = Util.getPathFromUrl(this.url);
+
+        session = Container.session;
     }
-//lombok 사용해서 안써도됨.
-//    public Map<String,String> getParams(){
-//        return params;
-//    }
-//
-//    public String getUrlPath(){
-//        return urlPath;
-//    }
+
 
     public String getParam(String paramName, String defaultValue) {
         if(!params.containsKey(paramName)){
@@ -50,5 +50,29 @@ public class Rq {
         }
 
         return id;
+    }
+
+    public boolean isLogined(){
+        return hasSessionAttr(loginedMember);
+    }
+
+    public boolean isLogout(){
+        return !isLogined();
+    }
+
+    public Object getSessionAttr(String attrName){
+        return session.getAttribute(attrName);
+    }
+
+    public void setSessionAttr(String attrName, Object value){
+        session.setAttribute(attrName,value);
+    }
+
+    public void removeSessionAttr(String attrName){
+        session.removeAttribute(attrName);
+    }
+
+    public boolean hasSessionAttr(String attrName){
+        return session.hasAttribute(attrName);
     }
 }
