@@ -13,5 +13,6 @@ public class Article {
     private String content;
     private String writerName; //작성자명
     private int memberId;
+    private int boardId;
 
 }
