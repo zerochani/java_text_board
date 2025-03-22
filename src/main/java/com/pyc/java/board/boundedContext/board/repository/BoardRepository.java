@@ -1,6 +1,7 @@
 package com.pyc.java.board.boundedContext.board.repository;
 
 import com.pyc.java.board.boundedContext.board.dto.Board;
+import com.pyc.java.board.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,18 @@ public class BoardRepository {
     public BoardRepository(){
         boardList = new ArrayList<>();
 
-        boardList.add(new Board(1, "공지사항","1"));
-        boardList.add(new Board(2, "자유", "2"));
+        makeBoardTestData();
+
     }
+
+    private void makeBoardTestData() {
+        String regDate = Util.getNowDateStr();
+        String updateDate = Util.getNowDateStr();
+
+        boardList.add(new Board(1, regDate, updateDate, "공지사항","1"));
+        boardList.add(new Board(2, regDate, updateDate,"자유", "2"));
+    }
+
 
     public Board findByBoardId(int boardId) {
         return boardList.stream()
