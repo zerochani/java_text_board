@@ -2,6 +2,7 @@ package com.pyc.java.board.base;
 
 
 
+import com.pyc.java.board.boundedContext.member.dto.Member;
 import com.pyc.java.board.container.Container;
 import com.pyc.java.board.session.Session;
 import com.pyc.java.board.util.Util;
@@ -64,6 +65,14 @@ public class Rq {
         return !isLogined();
     }
 
+    public void login(Member member){
+        setSessionAttr(loginedMember, member);
+    }
+
+    public void logout(Member member){
+        removeSessionAttr(loginedMember);
+    }
+
     public Object getSessionAttr(String attrName){
         return session.getAttribute(attrName);
     }
@@ -79,4 +88,9 @@ public class Rq {
     public boolean hasSessionAttr(String attrName){
         return session.hasAttribute(attrName);
     }
+
+    public Member getLoginedMember(){
+        return (Member) getSessionAttr(loginedMember);
+    }
+
 }
