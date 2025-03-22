@@ -138,6 +138,7 @@ public class ArticleController {
 
 
         String searchKeyWord = rq.getParam("searchKeyWord","");
+        String searchKeyWordTypeCode = rq.getParam("searchKeyWordTypeCode","");
         String orderBy = rq.getParam("orderBy", "idDesc");
         int boardId = rq.getIntParam("boardId",0);
 
@@ -150,7 +151,7 @@ public class ArticleController {
             return;
         }
 
-        List<Article> articles = articleService.findAll(searchKeyWord, orderBy,boardId);
+        List<Article> articles = articleService.findAll(searchKeyWord,searchKeyWordTypeCode, orderBy,boardId);
 
         if(articles.isEmpty()){
             System.out.println("현재 게시물이 존재하지 않습니다.");

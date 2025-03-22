@@ -50,12 +50,9 @@ public class ArticleRepository {
     }
 
     //전체 게시물 리스트 가져오는 리스트
-    public List<Article> findAll(String searchKeyWord, String orderBy, int boardId) {
+    public List<Article> findAll(String searchKeyWord,String searchKeyWordTypeCode, String orderBy, int boardId) {
         List<Article> filteredArticles = findByOrderByIdDesc(orderBy);
 
-        if(boardId == 0){
-            return filteredArticles;
-        }
         //boardId에 맞는 게시물 필터링
         if(boardId > 0){
             return filteredArticles.stream()
@@ -64,12 +61,15 @@ public class ArticleRepository {
         }
 
         if(!searchKeyWord.trim().isEmpty()){
-            filteredArticles = new ArrayList<>();
-
-            articles.stream()
-                    .filter(article-> article.getSubject().contains(searchKeyWord) ||
-                            article.getContent().contains(searchKeyWord))
-                    .forEach(filteredArticles::add);
+            List<Article> sortedArticles = findByOrderByIdDesc(orderBy);
+            filteredArticles = sortedArticles.stream()
+                    .filter(article -> switch(searchKeyWordTypeCode){
+                        case "subject" -> article.getSubject().contains(searchKeyWord);
+                        case "content"->article.getContent().contains(searchKeyWord);
+                        case "subject,content" -> article.getSubject().contains(searchKeyWord)
+                                || article.getContent().contains(searchKeyWord);
+                        default -> true; //검색 유형이 없으면 필터링 x
+                    }).toList();
         }
         return filteredArticles;
     }
