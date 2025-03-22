@@ -3,6 +3,8 @@ package com.pyc.java.board.container;
 import com.pyc.java.board.boundedContext.article.controller.ArticleController;
 import com.pyc.java.board.boundedContext.article.repository.ArticleRepository;
 import com.pyc.java.board.boundedContext.article.service.ArticleService;
+import com.pyc.java.board.boundedContext.board.repository.BoardRepository;
+import com.pyc.java.board.boundedContext.board.service.BoardService;
 import com.pyc.java.board.boundedContext.member.controller.MemberController;
 import com.pyc.java.board.boundedContext.member.repository.MemberRepository;
 import com.pyc.java.board.boundedContext.member.service.MemberService;
@@ -19,9 +21,11 @@ public class Container {
     public static NeedLogoutInterceptor needLogoutInterceptor;
     public static NeedLoginInterceptor needLoginInterceptor;
 
+    public static BoardRepository boardRepository;
     public static MemberRepository memberRepository;
     public static ArticleRepository articleRepository;
 
+    public static BoardService boardService;
     public static MemberService memberService;
     public static ArticleService articleService;
 
@@ -36,11 +40,17 @@ public class Container {
         needLoginInterceptor = new NeedLoginInterceptor();
 
         memberRepository = new MemberRepository();
-        memberService = new MemberService();
-        memberController = new MemberController();
-
         articleRepository = new ArticleRepository();
+        boardRepository = new BoardRepository();
+
+        memberService = new MemberService();
         articleService = new ArticleService();
+        boardService = new BoardService();
+
+        memberController = new MemberController();
         articleController = new ArticleController();
+
+
+
     }
 }

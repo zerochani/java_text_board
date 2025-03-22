@@ -3,6 +3,8 @@ package com.pyc.java.board.boundedContext.article.controller;
 import com.pyc.java.board.base.Rq;
 import com.pyc.java.board.boundedContext.article.dto.Article;
 import com.pyc.java.board.boundedContext.article.service.ArticleService;
+import com.pyc.java.board.boundedContext.board.dto.Board;
+import com.pyc.java.board.boundedContext.board.service.BoardService;
 import com.pyc.java.board.boundedContext.member.dto.Member;
 import com.pyc.java.board.container.Container;
 import com.pyc.java.board.util.Util;
@@ -15,9 +17,11 @@ import java.util.stream.IntStream;
 public class ArticleController {
 
     private ArticleService articleService;
+    private BoardService boardService;
 
     public ArticleController(){
         articleService = Container.articleService;
+        boardService = Container.boardService;
     }
 
     public void doDelete(Rq rq) {
@@ -83,10 +87,13 @@ public class ArticleController {
     public void doWrite(Rq rq) {
         int boardId = rq.getIntParam("boardId",0);
         if(boardId ==0){
-            System.out.println("올바르 값을 입력해주세요.");
+            System.out.println("올바른 값을 입력해주세요.");
             return;
         }
-        System.out.println("== 게시물 작성 ==");
+
+        Board board = boardService.findByBoardId(boardId);
+
+        System.out.printf("== %s 게시물 작성 ==\n", board.getName());
 
         System.out.print("제목 : ");
         String subject = Container.sc.nextLine();
@@ -140,7 +147,7 @@ public class ArticleController {
         }
 
         System.out.printf("== 게시물 리스트(%d개) ==\n", articles.size());
-        System.out.println("번호 | 제목 | 작성자 | 게시판 번호");
+        System.out.println("번호 | 제목 | 작성자 | 게시판 이름");
         articles.forEach(
                 article -> System.out.printf("%d | %s | %s | %d\n", article.getId(),
                         article.getSubject(),article.getWriterName(),article.getBoardId())
