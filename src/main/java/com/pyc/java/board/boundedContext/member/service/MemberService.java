@@ -10,13 +10,6 @@ public class MemberService {
 
     public MemberService(){
         memberRepository = Container.memberRepository;
-        makeMemberTestData();
-    }
-
-    private void makeMemberTestData() {
-        join("user1", "1234", "박영찬");
-        join("user2", "12345", "박영훈");
-        join("user3","1111", "박아리");
     }
 
     public void join(String username, String password, String name){

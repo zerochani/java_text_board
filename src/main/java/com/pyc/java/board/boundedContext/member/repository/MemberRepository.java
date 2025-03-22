@@ -12,7 +12,15 @@ public class MemberRepository {
     public MemberRepository(){
         members = new ArrayList<>();
         lastId = 0;
+        makeMemberTestData();
     }
+
+    private void makeMemberTestData() {
+        join("user1", "1234", "박영찬");
+        join("user2", "12345", "박영훈");
+        join("user3","1111", "박아리");
+    }
+
 
     public void join(String username, String password, String name) {
         int id = ++lastId;

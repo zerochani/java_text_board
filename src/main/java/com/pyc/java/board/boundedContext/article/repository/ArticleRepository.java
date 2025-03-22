@@ -5,6 +5,8 @@ import com.pyc.java.board.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
+
 public class ArticleRepository {
     private List<Article> articles;
     private int lastId;
@@ -12,12 +14,19 @@ public class ArticleRepository {
         articles = new ArrayList<>();
         lastId = 0;
 
+        makeArticleTestData();
     }
 
-    public int write(String subject, String content,String writerName){
+    private void makeArticleTestData() {
+        IntStream.rangeClosed(1,100)
+                .forEach(i->write("제목" + i, "내용" + i, "홍길동", 1));
+    }
+
+
+    public int write(String subject, String content,String writerName, int memberId){
         int id = ++lastId;
 
-        Article article = new Article(id,subject,content,writerName);
+        Article article = new Article(id,subject,content,writerName, memberId);
         articles.add(article);
         return id;
     }

@@ -13,16 +13,10 @@ public class ArticleService {
     public ArticleService(){
         articleRepository = Container.articleRepository;
 
-        makeArticleTestData();
     }
 
-    public void makeArticleTestData(){
-        IntStream.rangeClosed(1,100)
-                .forEach(i-> write("제목" + i, "내용" + i, "익명"));
-    }
-
-    public int write(String subject, String content, String writerName){
-        return articleRepository.write(subject, content, writerName);
+    public int write(String subject, String content, String writerName, int memberId){
+        return articleRepository.write(subject, content, writerName, memberId);
     }
 
     public List<Article> findAll(String searchKeyWord, String orderBy){
