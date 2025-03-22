@@ -14,10 +14,10 @@ public class ArticleRepository {
 
     }
 
-    public int write(String subject, String content){
+    public int write(String subject, String content,String writerName){
         int id = ++lastId;
 
-        Article article = new Article(id,subject,content);
+        Article article = new Article(id,subject,content,writerName);
         articles.add(article);
         return id;
     }
