@@ -5,6 +5,7 @@ import com.pyc.java.board.boundedContext.article.controller.ArticleController;
 import com.pyc.java.board.boundedContext.article.dto.Article;
 import com.pyc.java.board.boundedContext.member.dto.Member;
 import com.pyc.java.board.container.Container;
+import com.pyc.java.board.interceptor.Interceptor;
 import com.pyc.java.board.util.Util;
 
 import java.util.ArrayList;
@@ -37,7 +38,11 @@ public class App {
             System.out.printf("%s) ", promptName);
             String cmd = Container.sc.nextLine();
             rq.setCommand(cmd);
-            
+
+            if(!runInterceptor(rq)){
+                continue;
+            }
+
             if(rq.getUrlPath().equals("/user/article/write")){
                 articleController.doWrite();
             }else if(rq.getUrlPath().equals("/user/article/list")){
@@ -69,6 +74,20 @@ public class App {
         }
         System.out.println("== 자바 텍스트 게시판 끝 ==");
         Container.sc.close();
+    }
+
+    private boolean runInterceptor(Rq rq) {
+        List<Interceptor> interceptors = new ArrayList<>();
+
+        interceptors.add(Container.needLogoutInterceptor);
+        interceptors.add(Container.needLoginInterceptor);
+
+        for(Interceptor interceptor : interceptors){
+            if(!interceptor.run(rq)){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -6,6 +6,8 @@ import com.pyc.java.board.boundedContext.article.service.ArticleService;
 import com.pyc.java.board.boundedContext.member.controller.MemberController;
 import com.pyc.java.board.boundedContext.member.repository.MemberRepository;
 import com.pyc.java.board.boundedContext.member.service.MemberService;
+import com.pyc.java.board.interceptor.NeedLoginInterceptor;
+import com.pyc.java.board.interceptor.NeedLogoutInterceptor;
 import com.pyc.java.board.session.Session;
 
 import java.util.Scanner;
@@ -13,6 +15,9 @@ import java.util.Scanner;
 public class Container {
     public static Scanner sc;
     public static Session session;
+
+    public static NeedLogoutInterceptor needLogoutInterceptor;
+    public static NeedLoginInterceptor needLoginInterceptor;
 
     public static MemberRepository memberRepository;
     public static ArticleRepository articleRepository;
@@ -26,6 +31,9 @@ public class Container {
     static{
         sc = new Scanner(System.in);
         session = new Session();
+
+        needLogoutInterceptor = new NeedLogoutInterceptor();
+        needLoginInterceptor = new NeedLoginInterceptor();
 
         memberRepository = new MemberRepository();
         memberService = new MemberService();
