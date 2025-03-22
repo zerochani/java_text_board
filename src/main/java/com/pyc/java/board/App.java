@@ -3,6 +3,7 @@ package com.pyc.java.board;
 import com.pyc.java.board.base.Rq;
 import com.pyc.java.board.boundedContext.article.controller.ArticleController;
 import com.pyc.java.board.boundedContext.article.dto.Article;
+import com.pyc.java.board.boundedContext.member.dto.Member;
 import com.pyc.java.board.container.Container;
 import com.pyc.java.board.util.Util;
 
@@ -26,11 +27,17 @@ public class App {
 
 
         while(true){
-            System.out.print("명령) ");
+            Rq rq = new Rq();
+
+            Member member = (Member)rq.getSessionAttr("loginedMember");
+            String promptName = "명령";
+            if(member!=null){
+                promptName = member.getUsername();
+            }
+            System.out.printf("%s) ", promptName);
             String cmd = Container.sc.nextLine();
-
-            Rq rq = new Rq(cmd);
-
+            rq.setCommand(cmd);
+            
             if(rq.getUrlPath().equals("/user/article/write")){
                 articleController.doWrite();
             }else if(rq.getUrlPath().equals("/user/article/list")){
@@ -48,6 +55,8 @@ public class App {
                 memberController.doLogin(rq);
             }else if(rq.getUrlPath().equals("/user/member/logout")){
                 memberController.doLogout(rq);
+            }else if(rq.getUrlPath().equals("/user/member/mypage")){
+                memberController.showMyPage(rq);
             }
             else if(rq.getUrlPath().equals("exit")){
                 System.out.println("프로그램을 종료합니다.");

@@ -19,14 +19,18 @@ public class Rq {
     private String urlPath;
 
     private Session session;
-    private final String loginedMember = "loginedMember";
+    private final String loginedMember;
 
-    public Rq(String url){
+    public Rq(){
+        session = Container.session;
+        loginedMember = "loginedMember";
+    }
+
+    public void setCommand(String url){
         this.url = url;
         params = Util.getParamsFromUrl(this.url);
         urlPath = Util.getPathFromUrl(this.url);
 
-        session = Container.session;
     }
 
 
